@@ -5,13 +5,18 @@ const numbers = [];
 let total = 0;
 
 do {
-    userInput = Number(prompt('Введите любое число'));
+  userInput = prompt("Введите число :");
+  if (userInput === null) {
+    break;
+  } else {
     numbers.push(userInput);
-} while (userInput !== null);
+  }
+} while (true);
+
+console.log(numbers);
 
 for (let el of numbers) {
-    total += Number(el);
-};
+  total += Number(el);
+}
 
-console.log(`Сумма Ваших чисел: ${total}`);
-
+console.log(`Общая сумма чисел равна ${total}`);
