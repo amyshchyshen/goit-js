@@ -13,21 +13,21 @@
 // let message;
 
 
-// const ADMIN_PASSWORD = 'm4ng0h4ckz';
-// const userInput = prompt('Введите, пожалуйста, пароль'); 
-// let message
+const ADMIN_PASSWORD = 'm4ng0h4ckz';
+const userInput = prompt('Введите, пожалуйста, пароль'); 
+let message
 
-// switch (userInput) {
-//         case null: 
-//           message = 'Отменено пользователем!';
-//           break;
-//         case 'm4ng0h4ckz': 
-//           message = 'Добро пожаловать!';
-//           break;
-//         default:
-//         alert ('Доступ запрещен, неверный пароль!');
-//         }
-// alert(message);
+switch (userInput) {
+        case null: 
+          message = 'Отменено пользователем!';
+          break;
+        case 'm4ng0h4ckz': 
+          message = 'Добро пожаловать!';
+          break;
+        default:
+        alert ('Доступ запрещен, неверный пароль!');
+        }
+alert(message);
 
 // **************************************************
 
