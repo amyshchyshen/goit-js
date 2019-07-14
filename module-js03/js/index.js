@@ -48,6 +48,8 @@ const isLoginValid = function(login) {
   }
 };
 
+//return login.length >= 4 && login.length <= 16
+
 const isLoginUnique = function(allLogins, login) {
   if (allLogins.includes(login)) {
     return false;
