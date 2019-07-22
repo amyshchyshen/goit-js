@@ -1,40 +1,21 @@
-'use strict'
+'use strict';
 
-// За основу возьми домашнее задание из модуля №5, 
-// но теперь необходимо написать ES6 класс.
+// За основу возьми домашнее задание из модуля №4, 
+// но теперь необходимо написать функцию-конструктор 
+// Notepad для создания объекта управляющего коллекцией заметок.
 
-class Notepad {
-  /*
-   * Перенеси свойства и методы конструктора в класс
-   *
-   * Замени метод getNotes геттером, чтобы можно было обратиться как notepad.notes,
-   * для этого создай свойство _notes, в котором храни массив заметок,
-   * а геттер notes возвращает значение этого поля
-   *
-   * Добавь статическое свойство Priority используя ключевое слово static
-   */
-  constructor(notes) {
-    this._notes = notes;
+// Конструктор Notepad при инициализации принимает массив заметок
+const Notepad = function Notepad(notes = []) {
+  // Перенеси свойства и методы объекта notepad в конструктор
+  this.notes = notes;
+
+  this.getNotes = function() {
+    return this.notes;
   }
 
-  static Priority = {
-    LOW: 0,
-    NORMAL: 1,
-    HIGH: 2,
-  };
-
-  get notes() {
-    return this._notes;
-  }
-
-  saveNote(note) {
-    this._notes.push(note);
-    return note;
-  }
-
-  findNoteById(id) {
+  this.findNoteById = function(id) {
     let findNote = {};
-    for (let key of this._notes) {
+    for (let key of this.notes) {
       if (key.id === id) {
         findNote = key;
         return findNote;
@@ -43,47 +24,60 @@ class Notepad {
     return undefined;
   }
 
-  deleteNote(id) {
-    let noteForDelete = this.findNoteById(id);
-    this._notes.splice(this._notes.indexOf(noteForDelete), 1);
+  this.saveNote = function(note) {
+    this.notes.push(note);
+    return note;
   }
 
-  updateNoteContent(id, updatedContent) {
+  this.deleteNote = function(id) {
+    let noteForDelete = this.findNoteById(id);
+    this.notes.splice(this.notes.indexOf(noteForDelete), 1);
+  }
+
+  this.updateNoteContent = function(id, updatedContent) {
     let noteForUpdate = this.findNoteById(id);
     const updatedNote = {...noteForUpdate, ...updatedContent};
-    this._notes.splice(this._notes.indexOf(noteForUpdate), 1, updatedNote);
+    this.notes.splice(this.notes.indexOf(noteForUpdate), 1, updatedNote);
     return updatedNote;
   }
 
-  updateNotePriority(id, priority) {
+  this.updateNotePriority = function(id, priority) {
     let noteChangePriority = this.findNoteById(id);
     noteChangePriority.priority = priority;
     return noteChangePriority;
   }
 
-  filterNotesByQuery(query) {
-    let searchNote = [];
-    for (let key of this._notes) {
-      if (key.title.toLowerCase().includes(query.toLowerCase()) || 
-      key.body.toLowerCase().includes(query.toLowerCase)) {
-        searchNote.push(key);
+  this.filterNotesByQuery = function(query) {
+    let searchNotes = [];
+    for (let key of this.notes) {
+      if (key.title.toLowerCase().includes(query.toLowerCase()) || key.body.toLowerCase().includes(query.toLowerCase)) {
+        searchNotes.push(key);
       }
     }
-    return searchNote;
+    return searchNotes;
   }
 
-  filterNotesByPriority(priority) {
+  this.filterNotesByPriority = function(priority) {
     let searchPriority = [];
-    for (let key of this._notes) {
+    for (let key of this.notes) {
       if (key.priority === priority) {
         searchPriority.push(key);
       }
     }
     return searchPriority;
   }
-}
-// Далее идет код для проверки работоспособности класса и созданного экземпляра, 
-// вставь его в конец скрипта. Твоя реализация класса Notepad должна проходить этот тест.
+};
+
+
+// Добавляем статическое свойство, в котором храним приоритеты.
+Notepad.Priority = {
+  LOW: 0,
+  NORMAL: 1,
+  HIGH: 2,
+};
+// Далее идет код для проверки работоспособности конструктора 
+// и созданного экземпляра, вставь его в конец скрипта. 
+// Твоя реализация конструктора Notepad должна проходить этот тест.
 
 const initialNotes = [
   {
@@ -105,9 +99,9 @@ const initialNotes = [
 const notepad = new Notepad(initialNotes);
 
 /*
-  Смотрю что у меня в заметках после инициализации
-*/
-console.log('Все текущие заметки: ', notepad.notes);
+ * Смотрю что у меня в заметках после инициализации
+ */
+console.log('Все текущие заметки: ', notepad.getNotes());
 
 /*
  * Добавляю еще 2 заметки и смотрю что получилось
@@ -128,21 +122,27 @@ notepad.saveNote({
   priority: Notepad.Priority.LOW,
 });
 
-console.log('Все текущие заметки: ', notepad.notes);
+console.log('Все текущие заметки: ', notepad.getNotes());
 
 /*
  * Зима уже близко, пора поднять приоритет на покупку одежды
  */
 notepad.updateNotePriority('id-4', Notepad.Priority.NORMAL);
 
-console.log('Заметки после обновления приоритета для id-4: ', notepad.notes);
+console.log(
+  'Заметки после обновления приоритета для id-4: ',
+  notepad.getNotes(),
+);
 
 /*
  * Решил что фреймворки отложу немного, понижаю приоритет
  */
 notepad.updateNotePriority('id-3', Notepad.Priority.LOW);
 
-console.log('Заметки после обновления приоритета для id-3: ', notepad.notes);
+console.log(
+  'Заметки после обновления приоритета для id-3: ',
+  notepad.getNotes(),
+);
 
 /*
  * Решил отфильтровать заметки по слову html
@@ -177,11 +177,13 @@ notepad.updateNoteContent('id-3', {
 
 console.log(
   'Заметки после обновления контента заметки с id-3: ',
-  notepad.notes,
+  notepad.getNotes(),
 );
 
 /*
  * Повторил HTML и CSS, удаляю запись c id-2
  */
 notepad.deleteNote('id-2');
-console.log('Заметки после удаления с id -2: ', notepad.notes);
+console.log('Заметки после удаления с id -2: ', notepad.getNotes());
+
+
