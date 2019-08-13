@@ -152,51 +152,53 @@ const createListItem = note => {
   listItem.append(notes);
   return listItem;
 };
+
 const renderNoteList = (listRef, notes) => {
   const renderList = notes.map(elem => createListItem(elem));
   listRef.append(...renderList);
 };
 
-renderNoteList(ref.ul, notes.note);
+renderNoteList(ref.ul, initialNotes);
 
-createElement('div', 'list')
+
+// createElement('div', 'list')
 
 // Repeta
 
-// const createListItem = () => {
-//   const listItem = document.createElement('li');
-//   listItem.classList.add('list-item');
+const createListItems = () => {
+  const listItem = document.createElement('li');
+  listItem.classList.add('list-item');
   
-//   const body = document.createElement('p');
-//   body.classList.add('note-body');
-//   body.textContent = 
-//   'Winter is coming! Winter is coming! Winter is coming!';
+  const body = document.createElement('p');
+  body.classList.add('note-body');
+  body.textContent = 
+  'Winter is coming! Winter is coming! Winter is coming!';
   
-//   listItem.appendChild(body);
+  listItem.appendChild(body);
   
-//   const actionButtons = document.createElement('div');
-//   actionButtons.classList.add('action');
+  const actionButtons = document.createElement('div');
+  actionButtons.classList.add('action');
   
-//   const editButton = document.createElement('button');
-//   editButton.classList.add('btn');
-//   editButton.textContent = 'Edit';
+  const editButton = document.createElement('button');
+  editButton.classList.add('btn');
+  editButton.textContent = 'Edit';
   
-//   const deleteButton = document.createElement('button');
-//   deleteButton.classList.add('btn');
-//   deleteButton.textContent = 'Delete';
+  const deleteButton = document.createElement('button');
+  deleteButton.classList.add('btn');
+  deleteButton.textContent = 'Delete';
   
-//   actionButtons.appendChild(editButton);
-//   actionButtons.appendChild(deleteButton);
+  actionButtons.appendChild(editButton);
+  actionButtons.appendChild(deleteButton);
   
-//   listItem.appendChild(body);
-//   listItem.appendChild(actionButtons);
+  listItem.appendChild(body);
+  listItem.appendChild(actionButtons);
 
-//   return listItem;
-// };
+  return listItem;
+};
 
-// const noteList = document.querySelector('.note-list');
 
-// const item = createListItem();
 
-// ref.ul.appendChild(item);
-// console.log(item);;
+const item = createListItems();
+
+ref.ul.appendChild(item);
+console.log(item);;
