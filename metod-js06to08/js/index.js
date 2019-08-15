@@ -44,36 +44,38 @@ class Notepad {
   }
 
   updateNoteContent(id, updatedContent) {
-    // let noteForUpdate = this.findNoteById(id);
-    // const updatedNote = {...noteForUpdate, ...updatedContent};
-    // this._notes.splice(this._notes.indexOf(noteForUpdate), 1, updatedNote);
-    // return updatedNote;
+    
+    // let noteForUpdate = this._notes.map(note => {
+    //   if (this.findNoteById(id)) {
+    //     // console.log('id:', id, 'note:', note)
+    //     return {
+    //       ...note,
+    //       title: note.title = updatedContent
+    //     };
+    //   }
+    // })
+    // return this._notes 
+    // }
 
-    let noteForUpdate = this._notes.map(note => {
-      if (note.id === id) {
-        return {
-          ...note, 
-          title: note.title = updatedContent,
+    let noteForUpdate = this._notes.map(note => 
+      this.findNoteById(id)
+        ? {
+          ...note,
+          title: updatedContent
         }
-      }
-    })
-    return this._notes
-}
+        : this._notes
+      ) 
+    }
 
   updateNotePriority(id, priority) {
-    // let noteChangePriority = this.findNoteById(id);
-    // noteChangePriority.priority = priority;
-    // return noteChangePriority;
-    
-    let noteChangePriority = this._notes.map(note => {
-      if (note.id === id) {
-        return {
+    let noteChangePriority = this._notes.map(note => 
+      this.findNoteById(id)
+        ? {
           ...note, 
-          priority: note.priority = priority,
+          priority: note.priority = priority
         }
-      }
-    })
-    return this._notes
+        : this._notes
+    )
   }
 
   filterNotesByQuery(query) {
@@ -147,9 +149,9 @@ console.log('Все текущие заметки: ', notepad.notes);
  */
 notepad.saveNote({
   id: 'id-3',
-  title: 'Get comfy with Frontend frameworks',
+  title: 'Get comfy ',
   body:
-    'First must get some general knowledge about frameworks, then maybe try each one for a week or so. Need to choose between React, Vue and Angular, by reading articles and watching videos.',
+    'First must get ',
   priority: Notepad.Priority.NORMAL,
 });
 
@@ -166,7 +168,7 @@ console.log('Все текущие заметки: ', notepad.notes);
 /*
  * Зима уже близко, пора поднять приоритет на покупку одежды
  */
-notepad.updateNotePriority('id-4', Notepad.Priority.NORMAL);
+notepad.updateNotePriority('id-4', Notepad.Priority.HIGH);
 
 console.log('Заметки после обновления приоритета для id-4: ', notepad.notes);
 
@@ -175,7 +177,7 @@ console.log('Заметки после обновления приоритета
  */
 notepad.updateNotePriority('id-3', Notepad.Priority.LOW);
 
-console.log('Заметки после обновления приоритета для id-3: ', notepad.notes);
+console.log('*****Заметки после обновления приоритета для id-3: ', notepad.notes);
 
 /*
  * Решил отфильтровать заметки по слову html
@@ -205,11 +207,11 @@ console.log(
  * Обновим контент заметки с id-3
  */
 notepad.updateNoteContent('id-3', {
-  title: 'Get comfy with React.js or Vue.js WTF',
+  title: 'jfkjdfkfdkfdkhfdkhdfkdh',
 });
 
 console.log(
-  'Заметки после обновления контента заметки с id-3: ',
+  '======= Заметки после обновления контента заметки с id-3: ',
   notepad.notes,
 );
 
