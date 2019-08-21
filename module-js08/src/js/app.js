@@ -22,14 +22,7 @@ class Notepad {
   }
 
   findNoteById(id) {
-    let findNote = {};
-    for (let key of this._notes) {
-      if (key.id === id) {
-        findNote = key;
-        return findNote;
-      }
-    }
-    return undefined;
+    return this._notes.find(note => note.id === id);
   }
 
   deleteNote(id) {
@@ -45,31 +38,36 @@ class Notepad {
   }
 
   updateNotePriority(id, priority) {
-    let noteChangePriority = this.findNoteById(id);
-    noteChangePriority.priority = priority;
-    return noteChangePriority;
+    let noteChangePriority = this._notes.map(note => 
+      this.findNoteById(id)
+        ? {
+          ...note, 
+          priority: note.priority = priority
+        }
+        : this._notes
+    )
   }
 
   filterNotesByQuery(query) {
     let searchNote = [];
-    for (let key of this._notes) {
-      if (key.title.toLowerCase().includes(query.toLowerCase()) || 
-      key.body.toLowerCase().includes(query.toLowerCase)) {
-        searchNote.push(key);
-      }
+   let notesByQuery = this._notes.map(note => {
+    if (note.title.toLowerCase().includes(query.toLowerCase()) || 
+    note.body.toLowerCase().includes(query.toLowerCase)) {
+      searchNote.push(note)
     }
-    return searchNote;
+   })
+   return searchNote;
   }
 
   filterNotesByPriority(priority) {
     let searchPriority = [];
-    for (let key of this._notes) {
-      if (key.priority === priority) {
-        searchPriority.push(key);
-      }
-    }
+    let notesByPriority = this._notes.map(note => {
+      if (note.priority === priority) {
+        searchPriority.push(note);
+        }
+    })
     return searchPriority;
-  }
+  }  
 }
 //
 const PRIORITY_TYPES = {
@@ -125,8 +123,6 @@ const initialNotes = [
 
 const notepad = new Notepad(initialNotes);
 
-// Maksim
-
 const ref = {
   ul: document.querySelector('.note-list'),
 };
@@ -140,6 +136,7 @@ const createElement = (tag, className) => {
 const createListItem = note => {
   const listItem = createElement('li', 'note-list__item');
   const notes = createElement('div', 'note');
+  console.log(listItem);
   //title
   const noteContent = createElement('div', 'note__content');
   const title = createElement('h2', 'note__title');
@@ -161,44 +158,85 @@ const renderNoteList = (listRef, notes) => {
 renderNoteList(ref.ul, initialNotes);
 
 
-// createElement('div', 'list')
+//Footer
 
-// Repeta
+const createNoteFooter = () => {
+  const noteFooter = createElement('footer', 'note__footer');
+  const noteSectionPriority = createElement('section', 'note__section');
+  const noteSection = createElement('section', 'note__section');
+  console.log(noteFooter);
 
-const createListItems = () => {
-  const listItem = document.createElement('li');
-  listItem.classList.add('list-item');
-  
-  const body = document.createElement('p');
-  body.classList.add('note-body');
-  body.textContent = 
-  'Winter is coming! Winter is coming! Winter is coming!';
-  
-  listItem.appendChild(body);
-  
-  const actionButtons = document.createElement('div');
-  actionButtons.classList.add('action');
-  
+const createNoteFooter = () => {
+  const noteFooter = document.createElement('footer');
+  noteFooter.classList.add('note__footer');
+
+  const noteSectionPriority = document.createElement('section');
+  noteSectionPriority.classList.add('note__section');
+
   const editButton = document.createElement('button');
-  editButton.classList.add('btn');
-  editButton.textContent = 'Edit';
-  
+    editButton.classList.add('action');
+    editButton.textContent = '1';
+    editButton.dataset.action = NOTE_ACTIONS.decrease-priority;
+    
   const deleteButton = document.createElement('button');
-  deleteButton.classList.add('btn');
+    deleteButton.classList.add('action');
+    deleteButton.textContent = '2';
+    deleteButton.dataset.action = NOTE_ACTIONS.increase-priority;
+
+    
+
+  const noteSectionAction = document.createElement('section');
+  noteSectionAction.classList.add('note__section');
+
+  const editButton = document.createElement('button');
+  editButton.classList.add('action');
+  editButton.textContent = 'Edit';
+  editButton.dataset.action = NOTE_ACTIONS.edit-note;
+  
+const deleteButton = document.createElement('button');
+  deleteButton.classList.add('action');
   deleteButton.textContent = 'Delete';
+  deleteButton.dataset.action = NOTE_ACTIONS.delete-note;
+
+  noteFooter.append(noteSectionPriority, noteSectionAction);
+  console.log(noteFooter);
+
+  note.append(noteFooter);
   
-  actionButtons.appendChild(editButton);
-  actionButtons.appendChild(deleteButton);
+}
+
+
+
+
+// const createListItems = () => {
+//   const listItem = document.createElement('li');
+//   listItem.classList.add('list-item');
   
-  listItem.appendChild(body);
-  listItem.appendChild(actionButtons);
+//   const body = document.createElement('p');
+//   body.classList.add('note-body');
+//   body.textContent = 
+//   'Winter is coming! Winter is coming! Winter is coming!';
+  
+//   listItem.appendChild(body);
+  
+//   const actionButtons = document.createElement('div');
+//   actionButtons.classList.add('action');
+  
+//   const editButton = document.createElement('button');
+//   editButton.classList.add('btn');
+//   editButton.textContent = 'Edit';
+  
+//   const deleteButton = document.createElement('button');
+//   deleteButton.classList.add('btn');
+//   deleteButton.textContent = 'Delete';
+  
+//   actionButtons.append(editButton, deleteButton)
+  
+//   listItem.append(body, actionButtons)
+  
+//   return listItem;
+// };
 
-  return listItem;
-};
+// const item = createListItems();
 
-
-
-const item = createListItems();
-
-ref.ul.appendChild(item);
-console.log(item);;
+// ref.ul.appendChild(item);

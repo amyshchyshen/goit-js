@@ -44,19 +44,6 @@ class Notepad {
   }
 
   updateNoteContent(id, updatedContent) {
-    
-    // let noteForUpdate = this._notes.map(note => {
-    //   if (this.findNoteById(id)) {
-    //     // console.log('id:', id, 'note:', note)
-    //     return {
-    //       ...note,
-    //       title: note.title = updatedContent
-    //     };
-    //   }
-    // })
-    // return this._notes 
-    // }
-
     let noteForUpdate = this._notes.map(note => 
       this.findNoteById(id)
         ? {
@@ -151,7 +138,7 @@ notepad.saveNote({
   id: 'id-3',
   title: 'Get comfy ',
   body:
-    'First must get ',
+    'First must ',
   priority: Notepad.Priority.NORMAL,
 });
 
