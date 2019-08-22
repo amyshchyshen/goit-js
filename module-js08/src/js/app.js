@@ -50,7 +50,7 @@ class Notepad {
 
   filterNotesByQuery(query) {
     let searchNote = [];
-   let notesByQuery = this._notes.map(note => {
+    let notesByQuery = this._notes.map(note => {
     if (note.title.toLowerCase().includes(query.toLowerCase()) || 
     note.body.toLowerCase().includes(query.toLowerCase)) {
       searchNote.push(note)
@@ -147,6 +147,7 @@ const createListItem = note => {
   noteContent.append(title, body);
   notes.append(noteContent);
   listItem.append(notes);
+
   return listItem;
 };
 
@@ -157,86 +158,56 @@ const renderNoteList = (listRef, notes) => {
 
 renderNoteList(ref.ul, initialNotes);
 
-
 //Footer
 
 const createNoteFooter = () => {
   const noteFooter = createElement('footer', 'note__footer');
   const noteSectionPriority = createElement('section', 'note__section');
-  const noteSection = createElement('section', 'note__section');
+  const noteSectionAction = createElement('section', 'note__section');
   console.log(noteFooter);
 
-const createNoteFooter = () => {
-  const noteFooter = document.createElement('footer');
-  noteFooter.classList.add('note__footer');
+  const downButton = createElement('button', 'action');
+  downButton.dataset.action = NOTE_ACTIONS.DECREASE_PRIORITY;
+  const downIcon = createElement('i', 'material-icons');
+  downIcon.classList.add('action__icon');
+  downIcon.textContent = ICON_TYPES.ARROW_DOWN;
 
-  const noteSectionPriority = document.createElement('section');
-  noteSectionPriority.classList.add('note__section');
+  const upButton = createElement('button', 'action');
+  upButton.dataset.action = NOTE_ACTIONS.INCREASE_PRIORITY;
+  const upIcon = createElement('i', 'material-icons');
+  upIcon.classList.add('action__icon');
+  upIcon.textContent = ICON_TYPES.ARROW_UP;
 
-  const editButton = document.createElement('button');
-    editButton.classList.add('action');
-    editButton.textContent = '1';
-    editButton.dataset.action = NOTE_ACTIONS.decrease-priority;
-    
-  const deleteButton = document.createElement('button');
-    deleteButton.classList.add('action');
-    deleteButton.textContent = '2';
-    deleteButton.dataset.action = NOTE_ACTIONS.increase-priority;
+  const spanPriority = createElement('span', 'note__priority');
+  spanPriority.textContent = PRIORITY_TYPES.LOW;
 
-    
+  downButton.append(downIcon);
+  upButton.append(upIcon);
+  noteSectionPriority.append(downButton, upButton, spanPriority);
 
-  const noteSectionAction = document.createElement('section');
-  noteSectionAction.classList.add('note__section');
+  const editButton = createElement('button', 'action');
+  editButton.dataset.action = NOTE_ACTIONS.EDIT;
+  const editIcon = createElement('i', 'material-icons');
+  editIcon.classList.add('action__icon');
+  editIcon.textContent = ICON_TYPES.EDIT;
 
-  const editButton = document.createElement('button');
-  editButton.classList.add('action');
-  editButton.textContent = 'Edit';
-  editButton.dataset.action = NOTE_ACTIONS.edit-note;
+  const deleteButton = createElement('button', 'action');
+  deleteButton.dataset.action = NOTE_ACTIONS.DELETE;
+  const deleteIcon = createElement('i', 'material-icons');
+  deleteIcon.classList.add('action__icon');
+  deleteIcon.textContent = ICON_TYPES.DELETE;
+
+  editButton.append(editIcon);
+  deleteButton.append(deleteIcon);
+  noteSectionAction.append(editButton, deleteButton);
   
-const deleteButton = document.createElement('button');
-  deleteButton.classList.add('action');
-  deleteButton.textContent = 'Delete';
-  deleteButton.dataset.action = NOTE_ACTIONS.delete-note;
-
   noteFooter.append(noteSectionPriority, noteSectionAction);
-  console.log(noteFooter);
+  return noteFooter;
+};
 
-  note.append(noteFooter);
-  
-}
-
+createNoteFooter();
 
 
 
-// const createListItems = () => {
-//   const listItem = document.createElement('li');
-//   listItem.classList.add('list-item');
-  
-//   const body = document.createElement('p');
-//   body.classList.add('note-body');
-//   body.textContent = 
-//   'Winter is coming! Winter is coming! Winter is coming!';
-  
-//   listItem.appendChild(body);
-  
-//   const actionButtons = document.createElement('div');
-//   actionButtons.classList.add('action');
-  
-//   const editButton = document.createElement('button');
-//   editButton.classList.add('btn');
-//   editButton.textContent = 'Edit';
-  
-//   const deleteButton = document.createElement('button');
-//   deleteButton.classList.add('btn');
-//   deleteButton.textContent = 'Delete';
-  
-//   actionButtons.append(editButton, deleteButton)
-  
-//   listItem.append(body, actionButtons)
-  
-//   return listItem;
-// };
 
-// const item = createListItems();
 
-// ref.ul.appendChild(item);
