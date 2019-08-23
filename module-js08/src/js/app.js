@@ -124,90 +124,188 @@ const initialNotes = [
 const notepad = new Notepad(initialNotes);
 
 const ref = {
-  ul: document.querySelector('.note-list'),
+    ul: document.querySelector('.note-list'),
 };
 
 const createElement = (tag, className) => {
-  const createElement = document.createElement(tag);
-  createElement.classList.add(className);
-  return createElement;
+    const createElement = document.createElement(tag);
+    createElement.classList.add(className);
+    return createElement;
+};
+
+const createNoteContent = note => {
+    const notes = createElement('div', 'note');
+    //title
+    const noteContent = createElement('div', 'note__content');
+    const title = createElement('h2', 'note__title');
+    title.textContent = note.title;
+    //body
+    const body = createElement('p', 'note__body');
+    body.textContent = note.body;
+    noteContent.append(title, body);
+    notes.append(noteContent);
+    return notes;
+};
+
+const createNoteFooter = () => {
+    const noteFooter = createElement('footer', 'note__footer');
+
+    const noteSectionPriority = createElement('section', 'note__section');
+      
+    const downButton = createElement('button', 'action');
+    downButton.dataset.action = NOTE_ACTIONS.DECREASE_PRIORITY;
+    const downIcon = createElement('i', 'material-icons');
+    downIcon.classList.add('action__icon');
+    downIcon.textContent = ICON_TYPES.ARROW_DOWN;
+  
+    const upButton = createElement('button', 'action');
+    upButton.dataset.action = NOTE_ACTIONS.INCREASE_PRIORITY;
+    const upIcon = createElement('i', 'material-icons');
+    upIcon.classList.add('action__icon');
+    upIcon.textContent = ICON_TYPES.ARROW_UP;
+  
+    const spanPriority = createElement('span', 'note__priority');
+    spanPriority.textContent = PRIORITY_TYPES.LOW;
+  
+    downButton.append(downIcon);
+    upButton.append(upIcon);
+    noteSectionPriority.append(downButton, upButton, spanPriority);
+  
+    const noteSectionAction = createElement('section', 'note__section');
+
+    const editButton = createElement('button', 'action');
+    editButton.dataset.action = NOTE_ACTIONS.EDIT;
+    const editIcon = createElement('i', 'material-icons');
+    editIcon.classList.add('action__icon');
+    editIcon.textContent = ICON_TYPES.EDIT;
+  
+    const deleteButton = createElement('button', 'action');
+    deleteButton.dataset.action = NOTE_ACTIONS.DELETE;
+    const deleteIcon = createElement('i', 'material-icons');
+    deleteIcon.classList.add('action__icon');
+    deleteIcon.textContent = ICON_TYPES.DELETE;
+  
+    editButton.append(editIcon);
+    deleteButton.append(deleteIcon);
+    noteSectionAction.append(editButton, deleteButton);
+    
+    noteFooter.append(noteSectionPriority, noteSectionAction);
+    
+    return noteFooter;
 };
 
 const createListItem = note => {
-  const listItem = createElement('li', 'note-list__item');
-  const notes = createElement('div', 'note');
-  console.log(listItem);
-  //title
-  const noteContent = createElement('div', 'note__content');
-  const title = createElement('h2', 'note__title');
-  title.textContent = note.title;
-  //body
-  const body = createElement('p', 'note__body');
-  body.textContent = note.body;
-  noteContent.append(title, body);
-  notes.append(noteContent);
-  listItem.append(notes);
+    const listItem = createElement('li', 'note-list__item');
+    listItem.dataset.id = note.id;
 
-  return listItem;
+    return listItem;
 };
 
+console.log(createNoteContent(initialNotes));
+console.log(createNoteFooter());
+console.log(createListItem(initialNotes));
+
 const renderNoteList = (listRef, notes) => {
-  const renderList = notes.map(elem => createListItem(elem));
-  listRef.append(...renderList);
+    const renderList = notes.map(elem => createListItem(elem));
+    listRef.append(...renderList);
 };
 
 renderNoteList(ref.ul, initialNotes);
 
-//Footer
+//-------------------------****____________--------
 
-const createNoteFooter = () => {
-  const noteFooter = createElement('footer', 'note__footer');
-  const noteSectionPriority = createElement('section', 'note__section');
-  const noteSectionAction = createElement('section', 'note__section');
-  console.log(noteFooter);
+// const ref = {
+//   ul: document.querySelector('.note-list'),
+// };
 
-  const downButton = createElement('button', 'action');
-  downButton.dataset.action = NOTE_ACTIONS.DECREASE_PRIORITY;
-  const downIcon = createElement('i', 'material-icons');
-  downIcon.classList.add('action__icon');
-  downIcon.textContent = ICON_TYPES.ARROW_DOWN;
+// const createElement = (tag, className) => {
+//   const createElement = document.createElement(tag);
+//   createElement.classList.add(className);
+//   return createElement;
+// };
 
-  const upButton = createElement('button', 'action');
-  upButton.dataset.action = NOTE_ACTIONS.INCREASE_PRIORITY;
-  const upIcon = createElement('i', 'material-icons');
-  upIcon.classList.add('action__icon');
-  upIcon.textContent = ICON_TYPES.ARROW_UP;
+// const createListItem = note => {
+//   const listItem = createElement('li', 'note-list__item');
+//   const notes = createElement('div', 'note');
+//   listItem.dataset.id = note.id;
+//   console.log(listItem);
+//   //title
+//   const noteContent = createElement('div', 'note__content');
+//   const title = createElement('h2', 'note__title');
+//   title.textContent = note.title;
+//   //body
+//   const body = createElement('p', 'note__body');
+//   body.textContent = note.body;
+//   noteContent.append(title, body);
+//   notes.append(noteContent);
+//   listItem.append(notes);
 
-  const spanPriority = createElement('span', 'note__priority');
-  spanPriority.textContent = PRIORITY_TYPES.LOW;
+//   return listItem;
+// };
 
-  downButton.append(downIcon);
-  upButton.append(upIcon);
-  noteSectionPriority.append(downButton, upButton, spanPriority);
+// const renderNoteList = (listRef, notes) => {
+//   const renderList = notes.map(elem => createListItem(elem));
+//   listRef.append(...renderList);
+// };
 
-  const editButton = createElement('button', 'action');
-  editButton.dataset.action = NOTE_ACTIONS.EDIT;
-  const editIcon = createElement('i', 'material-icons');
-  editIcon.classList.add('action__icon');
-  editIcon.textContent = ICON_TYPES.EDIT;
+// renderNoteList(ref.ul, initialNotes);
 
-  const deleteButton = createElement('button', 'action');
-  deleteButton.dataset.action = NOTE_ACTIONS.DELETE;
-  const deleteIcon = createElement('i', 'material-icons');
-  deleteIcon.classList.add('action__icon');
-  deleteIcon.textContent = ICON_TYPES.DELETE;
+// //Footer
 
-  editButton.append(editIcon);
-  deleteButton.append(deleteIcon);
-  noteSectionAction.append(editButton, deleteButton);
+// const createNoteFooter = () => {
+//   const noteFooter = createElement('footer', 'note__footer');
+//   const noteSectionPriority = createElement('section', 'note__section');
+//   const noteSectionAction = createElement('section', 'note__section');
+//   console.log(noteFooter);
+
+//   const downButton = createElement('button', 'action');
+//   downButton.dataset.action = NOTE_ACTIONS.DECREASE_PRIORITY;
+//   const downIcon = createElement('i', 'material-icons');
+//   downIcon.classList.add('action__icon');
+//   downIcon.textContent = ICON_TYPES.ARROW_DOWN;
+
+//   const upButton = createElement('button', 'action');
+//   upButton.dataset.action = NOTE_ACTIONS.INCREASE_PRIORITY;
+//   const upIcon = createElement('i', 'material-icons');
+//   upIcon.classList.add('action__icon');
+//   upIcon.textContent = ICON_TYPES.ARROW_UP;
+
+//   const spanPriority = createElement('span', 'note__priority');
+//   spanPriority.textContent = PRIORITY_TYPES.LOW;
+
+//   downButton.append(downIcon);
+//   upButton.append(upIcon);
+//   noteSectionPriority.append(downButton, upButton, spanPriority);
+
+//   const editButton = createElement('button', 'action');
+//   editButton.dataset.action = NOTE_ACTIONS.EDIT;
+//   const editIcon = createElement('i', 'material-icons');
+//   editIcon.classList.add('action__icon');
+//   editIcon.textContent = ICON_TYPES.EDIT;
+
+//   const deleteButton = createElement('button', 'action');
+//   deleteButton.dataset.action = NOTE_ACTIONS.DELETE;
+//   const deleteIcon = createElement('i', 'material-icons');
+//   deleteIcon.classList.add('action__icon');
+//   deleteIcon.textContent = ICON_TYPES.DELETE;
+
+//   editButton.append(editIcon);
+//   deleteButton.append(deleteIcon);
+//   noteSectionAction.append(editButton, deleteButton);
   
-  noteFooter.append(noteSectionPriority, noteSectionAction);
-  return noteFooter;
-};
+//   noteFooter.append(noteSectionPriority, noteSectionAction);
 
-createNoteFooter();
+//   return noteFooter;
+// };
 
+// createNoteFooter();
 
+// const renderNoteFooter = (noteList, list) => {
+//   const renderFooter = list.map(elem => createNoteFooter(elem));
+//   noteList.append(...renderFooter);
+// }
+
+// renderNoteFooter(ref.ul, initialNotes);
 
 
 
