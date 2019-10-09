@@ -1,144 +1,66 @@
-'use strict'
-
-
-
-
-//   Создай объект notepad для работы с массивом заметок. 
-//   Каждая заметка это объект следующего формата:
-
-// id: string | integer
-// title: string
-// body: string
-// priority: integer [0-2]
-// id - уникальный идентификатор объекта, чтобы можно было найти его в коллекции, строка.
-// title - заголовок заметки, строка.
-// body - текст заметки, строка.
-// priority - значение приоритета, от 0 (низкий) до 2 (высокий).
-// Вот карта приоритетов, используй ее.
+'use strict';
 
 const Priority = {
   LOW: 0,
   NORMAL: 1,
   HIGH: 2,
 };
-// Напиши код для работы методов данного объекта.
 
 const notepad = {
-  notes: [], 
+  notes: [],
+  saveNote(note) {
+    this.notes.push(note);
+    return note;
+  },
   getNotes() {
-    /*
-     * Принимает: ничего
-     * Возвращает: все заметки, значение свойства notes
-     */
     return this.notes;
   },
   findNoteById(id) {
-    /*
-     * Ищет заметку в массиве notes
-     *
-     * Принимает: идентификатор заметки
-     * Возвращает: заметку с совпавшим полем id 
-     * или undefined если ничего не найдено
-     */
-    for(let key of this.notes) {
+    let noteToFind = {};
+    for (let key of this.notes) {
       if (key.id === id) {
-        return key;
+        noteToFind = key;
+        return noteToFind;
       }
-    }  
-  },
-  saveNote(note) {
-    /*
-     * Сохраняет заметку в массив notes
-     *
-     * Принимает: объект заметки
-     * Возвращает: сохраненную заметку
-     */
-    this.notes.push(note)
-    return note;
-    
+    }
+    return undefined;
   },
   deleteNote(id) {
-    /*
-     * Удаляет заметку по идентификатору из массива notes
-     *
-     * Принимает: идентификатор заметки
-     * Возвращает: ничего
-     */
-    const delObj = this.findNoteById(id);
-    this.notes.splice(this.notes.indexOf(delObj), 1);
+    let noteToDelete = this.findNoteById(id);
+    this.notes.splice(this.notes.indexOf(noteToDelete), 1);
   },
   updateNoteContent(id, updatedContent) {
-    /*
-     * Обновляет контент заметки
-     * updatedContent - объект с полями вида 
-     * {имя: значение, имя: значение}
-     * Свойств в объекте updatedContent может быть произвольное количество
-     *
-     * Принимает: идентификатор заметки и объект, 
-     * полями которого надо обновить заметку
-     * Возвращает: обновленную заметку
-     */
-      const findId = this.findNoteById(id);
-      // console.log(this.notes.indexOf(findId));
-      return findId.title = updatedContent.title;
+    let noteToUpdate = this.findNoteById(id);
+    const updatedNote = {...noteToUpdate, ...updatedContent};
+    // const updatedNote = Object.assign({}, noteToUpdate, updatedContent); // or this way
+    this.notes.splice(this.notes.indexOf(noteToUpdate), 1, updatedNote);
+    return updatedNote;
   },
   updateNotePriority(id, priority) {
-    /*
-     * Обновляет приоритет заметки
-     *
-     * Принимает: идентификатор заметки и ее новый приоритет
-     * Возвращает: обновленную заметку
-     */
-    const upPriority = this.findNoteById(id);
-    // console.log(this.notes.indexOf(upPriority));
-    return upPriority.priority = priority;
+    let noteToChangePriority = this.findNoteById(id);
+    noteToChangePriority.priority = priority;
+    return noteToChangePriority;
   },
   filterNotesByQuery(query) {
-    /*
-     * Фильтрует массив заметок по подстроке query.
-     * Если значение query есть в заголовке или 
-     * теле заметки - она подходит
-     * Принимает: подстроку для поиска в title и body заметки
-     * Возвращает: новый массив заметок, 
-     * контент которых содержит подстроку
-     */
-    for(let key of this.notes) {
-      let resultNotes = [];
-      let noteTitle = key.title.split(' ');
-      let noteBody = key.body.split(' ');
-      let newArr = [];
-      newArr.push(noteTitle);
-      newArr.push(noteBody);
-      let arrForSearch = newArr[0].concat(newArr[1]);
-      for (let el of arrForSearch) {
-          if (el === query) {
-              resultNotes.push(key)
-          }
-      } return resultNotes
-    } 
+    let searchResult = [];
+    for (let key of this.notes) {
+      if (key.title.toLowerCase().includes(query.toLowerCase()) || key.body.toLowerCase().includes(query.toLowerCase)) {
+        searchResult.push(key);
+      }
+    }
+    return searchResult;
   },
   filterNotesByPriority(priority) {
-    /*
-     * Фильтрует массив заметок по значению приоритета
-     * Если значение priority совпадает
-     * с приоритетом заметки - она подходит
-     * Принимает: приоритет для поиска в свойстве priority заметки
-     * Возвращает: новый массив заметок с подходящим приоритетом
-     */
-    for(let key of this.notes) {
+    let searchResult = [];
+    for (let key of this.notes) {
       if (key.priority === priority) {
-        let resultPriority = [];
-        resultPriority.push(key);
-        return resultPriority
-      };
-    };  
+        searchResult.push(key);
+      }
+    }
+    return searchResult;
   },
 };
 
-// Далее идет код для проверки работоспособности объекта, 
-// вставь его в конец скрипта. 
-// Твоя реализация методов объекта notepad должна 
-// проходить этот тест.
 
 /*
  * Добавляю 4 заметки и смотрю что получилось
@@ -237,4 +159,4 @@ console.log(
  * Повторил HTML и CSS, удаляю запись c id-2
  */
 notepad.deleteNote('id-2');
-console.log('Заметки после удаления с id -2: ', notepad.getNotes());
+console.log('Заметки после удаления с id-2: ', notepad.getNotes());
