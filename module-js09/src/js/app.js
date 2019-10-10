@@ -150,8 +150,6 @@ const refs = {
     button: document.querySelector('.button--wide'),
     form: document.querySelector('.note-editor'),
     searchInput: document.querySelector('.search-form__input'),
-    // editor: document.querySelector('.note-editor'),
-    // noteList: document.querySelector('.note-list'),
     titleInput: document.querySelector('input.note-editor__input'),
     bodyInput: document.querySelector('textarea.note-editor__input'),
 };
